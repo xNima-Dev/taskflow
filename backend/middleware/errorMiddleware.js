@@ -1,5 +1,16 @@
 const errorHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode ? res.statusCode : 500;
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+
+  // Handle Mongoose CastError (invalid ObjectId)
+  if (err.name === 'CastError') {
+    statusCode = 400;
+  }
+
+  // Handle Mongoose ValidationError
+  if (err.name === 'ValidationError') {
+    statusCode = 400;
+  }
+
   res.status(statusCode);
 
   res.json({
