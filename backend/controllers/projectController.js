@@ -61,7 +61,39 @@ const createProject = async (req, res, next) => {
   }
 };
 
+// @desc    Get single project by ID (including workspace members for assignment)
+// @route   GET /api/projects/detail/:projectId
+// @access  Private
+const getProjectById = async (req, res, next) => {
+  try {
+    const project = await Project.findById(req.params.projectId).populate({
+      path: 'workspace',
+      populate: { path: 'members.user', select: 'name email' }
+    });
+
+    if (!project) {
+      res.status(404);
+      return next(new Error('Project not found'));
+    }
+
+    // Verify requesting user is member of project's workspace
+    const isMember = project.workspace.members.some(
+      (m) => m.user._id.toString() === req.user._id.toString()
+    );
+
+    if (!isMember) {
+      res.status(403);
+      return next(new Error('Not authorized to access this project'));
+    }
+
+    res.status(200).json(project);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getProjects,
+  getProjectById,
   createProject
 };
