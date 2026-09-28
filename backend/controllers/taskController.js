@@ -85,10 +85,19 @@ const updateTask = async (req, res, next) => {
       return next(new Error('Not authorized to update this task'));
     }
 
+    // Whitelist allowed updates to prevent mass assignment (e.g. altering project reference)
+    const allowedFields = ['title', 'description', 'status', 'priority', 'dueDate', 'assigneeId'];
+    const updates = {};
+    for (const field of allowedFields) {
+      if (req.body[field] !== undefined) {
+        updates[field] = req.body[field];
+      }
+    }
+
     const updatedTask = await Task.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true }
+      updates,
+      { new: true, runValidators: true }
     ).populate('assigneeId', 'name email');
 
     res.status(200).json(updatedTask);
