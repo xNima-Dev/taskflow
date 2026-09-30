@@ -4,6 +4,8 @@
 
 **A modern, full-stack collaborative team task manager built on the MERN stack.**
 
+🚀 **[View Live Demo](https://taskflow-92w3phjbp-nimsarakavindhu-4281s-projects.vercel.app/)**
+
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-5.x-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
@@ -203,21 +205,19 @@ Deploying TaskFlow into production with a live URL takes under 10 minutes:
    mongodb+srv://<username>:<password>@cluster0.mongodb.net/taskflow?retryWrites=true&w=majority
    ```
 
-### 2. Backend: Render (Free Web Service)
+### 2. Backend: Railway.app (Free Web Service)
 1. Push your repository to GitHub.
-2. Sign in to [render.com](https://render.com) and click **New +** → **Web Service**.
-3. Connect your GitHub repository `xNima-Dev/taskflow`.
+2. Sign in to [railway.app](https://railway.app) using GitHub and click **New Project** → **Deploy from GitHub repo**.
+3. Connect your repository `xNima-Dev/taskflow`.
 4. Configure service settings:
-   - **Root Directory:** `backend`
-   - **Build Command:** `npm install`
-   - **Start Command:** `npm start`
-5. Add **Environment Variables**:
+   - Go to **Settings** and set **Root Directory** to `backend`.
+5. Go to the **Variables** tab and add:
    - `NODE_ENV`: `production`
    - `PORT`: `5000`
    - `MONGODB_URI`: *Your MongoDB Atlas connection URI*
    - `JWT_SECRET`: *Your random secure secret string*
    - `CLIENT_URL`: *Your Vercel frontend URL (e.g. `https://taskflow-app.vercel.app`)*
-6. Click **Deploy Web Service** and copy your backend URL (e.g., `https://taskflow-api.onrender.com`).
+6. Go to **Settings** > **Networking** and click **Generate Domain** to get your backend URL (e.g., `https://taskflow-production.up.railway.app`).
 
 ### 3. Frontend: Vercel (Free Static Hosting)
 1. Sign in to [vercel.com](https://vercel.com) and click **Add New** → **Project**.
